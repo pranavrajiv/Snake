@@ -1,0 +1,233 @@
+<html>
+<h1 style="text-align: center;"><u>SNAKE GAME</u></h1>
+<canvas id="canva" width="400" height="400" ></canvas>
+<script>
+
+function byteSnake()
+{
+	for(var i=1;i<xArr.length;i++)
+	{
+		
+		if((xArr[i]==xArr[0])&&(yArr[i]==yArr[0]))
+		{
+			alert("GAME OVER \nFINAL SCORE"+(tail-1));
+			clearInterval(draw); 
+			location.reload();
+		}
+		
+	}
+}
+
+function catching()
+{
+	if((fiPosX== inix)&&(fiPosY== iniy))
+	{
+		tail++;
+		fiPosX=Math.floor((Math.random() * 38) + 1)*10;
+		fiPosY=Math.floor((Math.random() * 38) + 1)*10;
+		var flag=0;
+		while(flag<xArr.length)
+		{	
+			flag = 0;
+			for(var i=0;i<xArr.length;i++)
+			{	flag++;
+				if((xArr[i]==fiPosX)&&(yArr[i]==fiPosY))
+				{	
+					flag--;
+					fiPosX=Math.floor((Math.random() * 38) + 1)*10;
+					fiPosY=Math.floor((Math.random() * 38) + 1)*10;
+				}
+			}
+		}
+
+		can.fillStyle = "yellow";
+		can.fillRect(fiPosX,fiPosY,10,10);
+		can.fillStyle = "green";
+		document.getElementById("score").innerHTML = "Score: "+(tail-1);
+		
+		if(snspeed >55)
+			snspeed--;
+	}
+}
+	
+function popfun()
+{
+	catching();
+	while(xArr.length>tail)
+	{
+		can.fillStyle = "red";
+		can.fillRect(xArr[xArr.length-1],yArr[xArr.length-1],10,10);
+		can.fillStyle = "black";
+		can.fillRect(xArr[xArr.length-1],yArr[xArr.length-1],1,10);
+		can.fillRect(xArr[xArr.length-1]+10,yArr[xArr.length-1],1,10);
+		can.fillRect(xArr[xArr.length-1],yArr[xArr.length-1],10,1);
+		can.fillRect(xArr[xArr.length-1],yArr[xArr.length-1]+10,10,1);
+		xArr.pop();
+		yArr.pop();
+	}
+	can.fillStyle = "green";
+		
+}
+
+
+function drawing(co)
+{	
+	if(co == '38')
+	{	
+		if(iniy-10 >=10 && iniy-10 <=380)
+	    {	
+			can.fillRect(inix,iniy-10,10,10);
+			iniy=iniy-10;
+			xArr.unshift(inix);
+			yArr.unshift(iniy);
+			byteSnake()
+			can.fillStyle = "violet";
+			can.fillRect(xArr[0],yArr[0],10,10);
+			can.fillStyle = "green";
+			can.fillRect(xArr[1],yArr[1],10,10);
+			popfun();
+		}
+		else
+		{
+			alert("GAME OVER \nFINAL SCORE"+(tail-1));
+			clearInterval(draw); 
+			location.reload();
+		}
+	}
+	else
+	if(co == '40')
+	{	
+		if(iniy+10 >=10 && iniy+10 <=380)
+		{	
+			can.fillRect(inix,iniy+10,10,10);
+		    iniy=iniy+10;
+		    xArr.unshift(inix);
+			yArr.unshift(iniy);
+			byteSnake()
+			can.fillStyle = "violet";
+			can.fillRect(xArr[0],yArr[0],10,10);
+			can.fillStyle = "green";
+			can.fillRect(xArr[1],yArr[1],10,10)
+			popfun();
+		}
+		else
+		{
+			alert("GAME OVER \nFINAL SCORE: "+(tail-1));
+			clearInterval(draw); 
+			location.reload();
+		}
+	}
+	else
+	if(co == '37')
+	{	
+		if(inix-10 >=10 && inix-10 <=380)
+		{
+			can.fillRect(inix-10,iniy,10,10);
+			inix=inix-10;
+			xArr.unshift(inix);
+			yArr.unshift(iniy);
+			byteSnake()
+			can.fillStyle = "violet";
+			can.fillRect(xArr[0],yArr[0],10,10);
+			can.fillStyle = "green";
+			can.fillRect(xArr[1],yArr[1],10,10)
+			popfun();
+	   	}
+	   	else
+		{
+			alert("GAME OVER \nFINAL SCORE: "+(tail-1));
+			clearInterval(draw); 
+			location.reload();
+		}
+	}
+	else
+	if(co == '39')
+	{	
+		if(inix+10 >=10 && inix+10 <=380)
+	    {
+			can.fillRect(inix+10,iniy,10,10);
+			inix=inix+10;
+			xArr.unshift(inix);
+			yArr.unshift(iniy);
+			byteSnake()
+			can.fillStyle = "violet";
+			can.fillRect(xArr[0],yArr[0],10,10);
+			can.fillStyle = "green";
+			can.fillRect(xArr[1],yArr[1],10,10)
+			popfun();
+	    }
+	    else
+		{
+			alert("GAME OVER \nFINAL SCORE: "+(tail-1));
+			clearInterval(draw); 
+			location.reload();
+		}
+	}
+	
+}
+
+function mov()
+{
+	document.onkeydown = function(){
+
+	clearInterval(draw);  
+	can.fillStyle = "green";
+    e = window.event;
+
+    if(inix >=0 && inix <=390 && iniy >=0 && iniy <=390)
+		draw = setInterval(function(){drawing(e.keyCode)},snspeed) 	
+	else
+	{
+		alert("GAME OVER \nFINAL SCORE: "+(tail-1));
+		clearInterval(draw); 
+		location.reload();
+	}
+
+};
+}
+var snspeed = 100;
+var xArr=new Array();
+var yArr=new Array();
+var fiPosX=Math.floor((Math.random() * 38) + 1)*10;
+var fiPosY=Math.floor((Math.random() * 38) + 1)*10;
+var tail = 1;
+var inix=90;
+var iniy =200;
+xArr.unshift(inix);
+yArr.unshift(iniy);
+var draw;
+var c = document.getElementById("canva");
+var can = c.getContext("2d");
+can.fillStyle = "red";
+can.fillRect(0,0,400,400);
+can.fillStyle = "blue";
+can.fillRect(0,0,400,10);
+can.fillRect(0,390,400,10);
+can.fillRect(0,0,10,400);
+can.fillRect(390,0,10,400);
+
+can.fillStyle = "black";
+for(var i=10;i<=390;i=i+10)
+{	
+	can.fillRect(i,10,1,380);
+	can.fillRect(10,i,380,1);
+}
+	
+can.fillStyle = "yellow";
+can.fillRect(fiPosX,fiPosY,10,10);
+can.fillStyle = "violet";
+can.fillRect(inix,iniy,10,10);
+window.onload = function(){
+setInterval(mov,50);
+};
+
+</script>
+<body>
+<br>
+Use the arrows to move the Snake
+<h1 id="score">
+Score: 0
+</h1>
+
+</body>
+</html>
